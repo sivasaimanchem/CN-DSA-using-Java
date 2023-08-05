@@ -1,0 +1,1 @@
+ // curnode.data=value;
