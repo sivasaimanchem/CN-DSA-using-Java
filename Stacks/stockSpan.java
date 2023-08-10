@@ -1,46 +1,46 @@
 import java.util.*;
-public class reverseStack {
+
+public class stockSpan {
     public static void main(String[] args) {
-        Scanner s=new Scanner(System.in);
-        LLStack LLS=new LLStack(); 
-        System.out.println("enter the no of elements to  be entered:");
+        Scanner s = new Scanner(System.in);
+        LLStack ll=new LLStack();
         int n=s.nextInt();
-        for(int i=0;i<n;i++){
-            System.out.println("enter the value to be inserted");
-            int value=s.nextInt();
-            LLS.push(value);
+        int[] arr=new int[n];
+        for (int i=0; i<n; i++) {
+            arr[i]=s.nextInt();
         }
-        LLS.reverse();
-        for(int i=0; i<n; i++){
-            System.out.println(LLS.pop());
+        int[] ans=ll.stocks(arr);
+        for (int i=0; i<n; i++) {
+            System.out.print(ans[i]+" ");
         }
     }
 }
 class LLStack{
     int size;
     node head;
-    node newhead;
+    
     LLStack() {
         size=0;
         head=null;
-        newhead=null;
     }
 
-    void reverse(){
-        if(head==null || head.next==null){
-            return;
+    int[] stocks(int[] arr){
+        int len=arr.length;
+        if(len==0 || len==1) return null;
+        int[] ans=new int[len];
+        LLStack stack=new LLStack();
+        push(arr[0]);
+        ans[0]=1;
+        for(int i=1;i<len;i++){
+            if(arr[i]>top()){
+                ans[i]=i+1;
+                push(arr[i]);
+            }
+            else{
+                ans[i]= 1;
+            }
         }
-        node iterator=head;
-        //node temp;
-        while(iterator!=null){
-            int num=pop();
-            node temp=new node(num);
-            temp.next=newhead;
-            newhead=temp;
-            //newhead=newhead.next;
-            iterator=iterator.next;
-        }
-        head=newhead;
+        return ans;
     }
 
     void push(int value){

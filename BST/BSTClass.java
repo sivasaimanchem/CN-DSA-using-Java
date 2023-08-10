@@ -52,7 +52,14 @@ class BST{
     }
 
     void delete(){
-
+        Scanner s=new Scanner(System.in);
+        int value=s.nextInt();
+        delete(root,value);
+    }
+    void delete(BSTNode root2, int value) {
+        if(root==null){
+            
+        }
     }
     void search(){
         if(root==null){
