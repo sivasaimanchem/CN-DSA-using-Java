@@ -29,16 +29,18 @@ class LLStack{
         if(len==0 || len==1) return null;
         int[] ans=new int[len];
         LLStack stack=new LLStack();
-        push(arr[0]);
+        push(0);
         ans[0]=1;
         for(int i=1;i<len;i++){
-            if(arr[i]>top()){
-                ans[i]=i+1;
-                push(arr[i]);
+            while(!isEmpty() && arr[i]>arr[top()]){
+                pop();
             }
-            else{
-                ans[i]= 1;
+            if(isEmpty()){
+                ans[i]= i+1;
+            }else{
+                ans[i]= i-top();
             }
+            push(i);
         }
         return ans;
     }
@@ -71,12 +73,16 @@ class LLStack{
         return head.data;
     }
 
-    void isEmpty(){
+    boolean isEmpty(){
+        boolean bool;
         if(head==null){
-            System.out.println("true");
+            bool = true;
+            //System.out.println("true");
         }else{
-            System.out.println("false");
+            bool = false;
+            //System.out.println("false");
         }
+        return bool;
     }
 
     void size(){

@@ -1,13 +1,16 @@
 import java.util.*;
-public class heightOfTree {
+
+public class CreateAndInsertDuplicateNode {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         operations op=new operations();
         BTNode<Integer> node=op.takeInput(true,0,false);
-        System.out.println(op.findHeight(node));
-        //op.display(node);
+        op.display(node);
+        op.addDuplicate(node);
+        op.display(node);
     }
 }
+
 class operations {
     BTNode<Integer> takeInput(boolean isroot,int node,boolean isleft){
 
@@ -30,35 +33,43 @@ class operations {
         newnode.right = rootright;
         return newnode;
     }
-    void  display(BTNode<Integer> node){
-        if(node==null) return;
-        System.out.println(node.data);
-       if(node.left!=null){
-         display(node.left);
-       }
-       if(node.right!=null){
-         display(node.right);
-       }
-    }
-    int findHeight(BTNode<Integer> root){
-         if (root==null)
-        {
-            return 0;
+    void  display(BTNode<Integer> root){
+       if(root==null){
+			return;
+		}
+		Queue<BTNode<Integer>> queue= new LinkedList<BTNode<Integer>>();
+		queue.add(root);
+		while(! queue.isEmpty()){
+			BTNode<Integer> front= queue.poll();
+			if(front.left==null){
+				System.out.print(front.data+":"+"L:"+"-1");
+			}
+			else{
+				System.out.print(front.data+":"+"L:"+front.left.data);
+				queue.add(front.left);
+			}
+			if(front.right==null){
+				System.out.println(",R:"+"-1");
+			}
+			else{
+				System.out.println(",R:"+front.right.data);
+			    queue.add(front.right);
+			}
         }
-        return findHeight(root.left)+findHeight(root.right)+1;
+    }
+	void addDuplicate(BTNode<Integer> root) {
+		if(root == null) {
+			return;
+		}
+        BTNode<Integer> duplicate=new BTNode<Integer>(root.data);
+        BTNode<Integer> temp=root.left;
+        root.left=duplicate;
+        duplicate.left=temp;
+        addDuplicate(root.left.left);
+        addDuplicate(root.right);
+
 	}
-    
-    public static int findHeighthelper(BTNode<Integer> root)
-    {
-        if (root==null)
-        {
-            return 0;
-        }
-        int leftHeight=findHeighthelper(root.left);
-        int rightHeight=findHeighthelper(root.right);
-        
-        return Math.max(leftHeight,rightHeight)+1;
-    }
+   
 }
 class BTNode<T>{
     T data;

@@ -1,10 +1,10 @@
 import java.util.*;
-public class heightOfTree {
+public class diameterOfTree {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         operations op=new operations();
         BTNode<Integer> node=op.takeInput(true,0,false);
-        System.out.println(op.findHeight(node));
+        System.out.println(op.diameterOfBinaryTree(node));
         //op.display(node);
     }
 }
@@ -40,13 +40,21 @@ class operations {
          display(node.right);
        }
     }
-    int findHeight(BTNode<Integer> root){
-         if (root==null)
-        {
-            return 0;
-        }
-        return findHeight(root.left)+findHeight(root.right)+1;
+    static int diameter;
+	int getMaxDepth(BTNode<Integer> root) {
+		if(root == null) {
+			return 0;
+		}
+		int leftSubtreeDepth = getMaxDepth(root.left);
+		int rightSubtreeDepth = getMaxDepth(root.right);
+		diameter = Math.max(diameter, leftSubtreeDepth + rightSubtreeDepth);
+		return Math.max(leftSubtreeDepth, rightSubtreeDepth) + 1;
 	}
+    public int diameterOfBinaryTree(BTNode<Integer> root) {
+        diameter = 0;
+		getMaxDepth(root);
+		return diameter;
+    }
     
     public static int findHeighthelper(BTNode<Integer> root)
     {

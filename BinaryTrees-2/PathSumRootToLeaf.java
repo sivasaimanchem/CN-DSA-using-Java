@@ -1,13 +1,14 @@
 import java.util.*;
-public class heightOfTree {
+
+public class PathSumRootToLeaf {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         operations op=new operations();
         BTNode<Integer> node=op.takeInput(true,0,false);
-        System.out.println(op.findHeight(node));
-        //op.display(node);
+        op.findPath(node);
     }
 }
+
 class operations {
     BTNode<Integer> takeInput(boolean isroot,int node,boolean isleft){
 
@@ -30,35 +31,27 @@ class operations {
         newnode.right = rootright;
         return newnode;
     }
-    void  display(BTNode<Integer> node){
-        if(node==null) return;
-        System.out.println(node.data);
-       if(node.left!=null){
-         display(node.left);
-       }
-       if(node.right!=null){
-         display(node.right);
-       }
+    void  findPath(BTNode<Integer> root){
+       Scanner scanner= new Scanner(System.in);
+       int k=scanner.nextInt();
+       findpathHelper(root,k,"",0);
     }
-    int findHeight(BTNode<Integer> root){
-         if (root==null)
-        {
-            return 0;
+    void findpathHelper(BTNode<Integer> root,int k,String path,int sum){
+        if(root==null){
+            return;
         }
-        return findHeight(root.left)+findHeight(root.right)+1;
-	}
-    
-    public static int findHeighthelper(BTNode<Integer> root)
-    {
-        if (root==null)
-        {
-            return 0;
+        if(root.right==null && root.left==null){
+            sum+=root.data;
+            if(sum==k){
+                System.out.println(path+root.data+" ");
+                return;
+            }
         }
-        int leftHeight=findHeighthelper(root.left);
-        int rightHeight=findHeighthelper(root.right);
-        
-        return Math.max(leftHeight,rightHeight)+1;
+        findpathHelper(root.left,k,path+root.data+" ",sum+root.data);
+        findpathHelper(root.right,k,path+root.data+" ",sum+root.data);
+
     }
+   
 }
 class BTNode<T>{
     T data;

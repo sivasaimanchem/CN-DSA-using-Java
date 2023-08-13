@@ -1,14 +1,28 @@
 import java.util.*;
-public class heightOfTree {
+public class isNodePresent {
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
         operations op=new operations();
         BTNode<Integer> node=op.takeInput(true,0,false);
-        System.out.println(op.findHeight(node));
-        //op.display(node);
+        Scanner s=new Scanner(System.in);
+        int value=s.nextInt();
+        System.out.println(op.nodesearch(node,value));
+        op.display(node);
+
     }
 }
-class operations {
+class operations{
+
+    boolean nodesearch(BTNode<Integer> root, int value){
+        if(root==null){
+            return false;
+        }
+        if(root.data==value){
+            return true;
+        }
+        return nodesearch(root.left, value) || nodesearch(root.right, value);
+        
+    }
+
     BTNode<Integer> takeInput(boolean isroot,int node,boolean isleft){
 
         if(isroot){
@@ -32,32 +46,17 @@ class operations {
     }
     void  display(BTNode<Integer> node){
         if(node==null) return;
-        System.out.println(node.data);
-       if(node.left!=null){
-         display(node.left);
-       }
-       if(node.right!=null){
-         display(node.right);
-       }
-    }
-    int findHeight(BTNode<Integer> root){
-         if (root==null)
-        {
-            return 0;
+        System.out.print(+node.data+":");
+        if(node.left!=null){
+            System.out.print("L:"+node.left.data);
         }
-        return findHeight(root.left)+findHeight(root.right)+1;
-	}
-    
-    public static int findHeighthelper(BTNode<Integer> root)
-    {
-        if (root==null)
-        {
-            return 0;
+        if(node.right!=null){
+            System.out.print("  R:"+node.right.data);
         }
-        int leftHeight=findHeighthelper(root.left);
-        int rightHeight=findHeighthelper(root.right);
+        System.out.println();
         
-        return Math.max(leftHeight,rightHeight)+1;
+        display(node.left);
+        display(node.right);
     }
 }
 class BTNode<T>{
