@@ -1,10 +1,12 @@
 import java.util.*;
-public class heightOfTree {
+public class isBalanced{
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         operations op=new operations();
         BTNode<Integer> node=op.takeInput(true,0,false);
-        System.out.println(op.findHeight(node));
+        pair sol=new pair();
+        sol=op.isBalanced(node);
+        System.out.println(sol.isbalanced);
         //op.display(node);
     }
 }
@@ -30,7 +32,7 @@ class operations {
         newnode.right = rootright;
         return newnode;
     }
-    void  display(BTNode<Integer> node){
+    void display(BTNode<Integer> node){
         if(node==null) return;
         System.out.println(node.data);
        if(node.left!=null){
@@ -41,16 +43,27 @@ class operations {
        }
     }
     
-    public static int findHeight(BTNode<Integer> root)
+    pair isBalanced(BTNode<Integer> root)
     {
         if (root==null)
         {
-            return 0;
+            pair pair=new pair();
+            pair.isbalanced = true;
+            pair.height=0;
+            return pair;
         }
-        int leftHeight=findHeight(root.left);
-        int rightHeight=findHeight(root.right);
-        
-        return Math.max(leftHeight,rightHeight)+1;
+        pair ans=new pair();
+        pair leftOutput=isBalanced(root.left);
+        pair rightOutput=isBalanced(root.right);
+        ans.isbalanced=true;
+        ans.height=Math.max(leftOutput.height,rightOutput.height)+1;
+        if(Math.abs(leftOutput.height-rightOutput.height)>1){
+            ans.isbalanced=false;
+        }
+        if(!leftOutput.isbalanced || !rightOutput.isbalanced){
+            ans.isbalanced=false;
+        }
+        return ans;
     }
 }
 class BTNode<T>{
@@ -60,4 +73,12 @@ class BTNode<T>{
     BTNode(T data){
         this.data=data;
     }
+}
+class pair{
+    int height;
+    boolean isbalanced;
+    // pair(boolean isbalanced){
+    //     this.isbalanced=isbalanced;
+    // }
+
 }

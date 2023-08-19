@@ -1,38 +1,46 @@
-import java.util.*;
-public class BSTClass {
+import java.util.Scanner;
+
+public class ElementsBetweenK1andK2 {
     public static void main(String[] args) {
         Scanner s=new Scanner(System.in);
         BST BST=new BST();
-        boolean a=true;
-        while(a){
-            System.out.println("enter the option number of the requried operation:");
-            int n=s.nextInt();
-            switch (n){
-                case 0:
-                    BST.insert();
-                    break;
-                case 1:
-                    BST.delete();
-                    break;
-                case 2:
-                    BST.search();
-                    break;
-                case 3:
-                    BST.display();
-                    break;
-                case 4:
-                    a=false;
-                    break;
-                default:
-                    System.out.println("choose valid option");
-            }
+        System.out.println("enter the no of elements to be entered: ");
+        int n=s.nextInt();
+        for (int i=0; i<n; i++) {
+            BST.insert();
         }
+        
+        BST.k1andk2();
     }
 }
 
 class BST{
     BSTNode root;
     int size;
+    void k1andk2() {
+        Scanner s=new Scanner(System.in);
+        System.out.println("enter the k1 and k2 values: ");
+        int k1=s.nextInt();
+        int k2=s.nextInt();
+        k1andk2(root, k1, k2);
+    }
+    void k1andk2(BSTNode root,int k1,int k2){
+        if(root==null){
+            return;
+        }
+        if(root.data<k1){
+            k1andk2(root.right, k1, k2);
+        }
+        else if(root.data>k2){
+            k1andk2(root.right, k1, k2);
+        }else{
+            k1andk2(root.left, k1, k2);
+            System.out.print(root.data+" ");
+            k1andk2(root.right, k1, k2);
+        }
+    }
+
+
     void insert(){
         Scanner s=new Scanner(System.in);
         int value=s.nextInt();
@@ -84,7 +92,7 @@ class BST{
                     node=node.left;
                 }
                 root.data=node.data;
-                root.right=delete(root.right, node.data);
+                delete(root.right, node.data);
                 return root;
             }
         }

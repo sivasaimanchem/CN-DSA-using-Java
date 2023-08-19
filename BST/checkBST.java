@@ -1,10 +1,10 @@
 import java.util.*;
-public class heightOfTree {
+public class checkBST {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         operations op=new operations();
         BTNode<Integer> node=op.takeInput(true,0,false);
-        System.out.println(op.findHeight(node));
+        System.out.println(op.BSTcheck(node));
         //op.display(node);
     }
 }
@@ -41,17 +41,23 @@ class operations {
        }
     }
     
-    public static int findHeight(BTNode<Integer> root)
-    {
-        if (root==null)
-        {
-            return 0;
-        }
-        int leftHeight=findHeight(root.left);
-        int rightHeight=findHeight(root.right);
-        
-        return Math.max(leftHeight,rightHeight)+1;
+    boolean BSTcheck(BTNode<Integer> node) {
+        return BSTcheck(node, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
+
+    boolean BSTcheck(BTNode<Integer> root, int minvalue, int maxvalue) {
+        if (root == null) {
+            return true;
+        }
+        if (root.data < minvalue || root.data > maxvalue) {
+            return false;
+        }
+        boolean leftresult = BSTcheck(root.left, minvalue, root.data - 1);
+        boolean rightresult = BSTcheck(root.right, root.data , maxvalue); 
+
+        return leftresult && rightresult;
+    }
+
 }
 class BTNode<T>{
     T data;

@@ -1,38 +1,55 @@
 import java.util.*;
-public class BSTClass {
+public class FindPathInBST {
     public static void main(String[] args) {
-        Scanner s=new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
         BST BST=new BST();
-        boolean a=true;
-        while(a){
-            System.out.println("enter the option number of the requried operation:");
-            int n=s.nextInt();
-            switch (n){
-                case 0:
-                    BST.insert();
-                    break;
-                case 1:
-                    BST.delete();
-                    break;
-                case 2:
-                    BST.search();
-                    break;
-                case 3:
-                    BST.display();
-                    break;
-                case 4:
-                    a=false;
-                    break;
-                default:
-                    System.out.println("choose valid option");
-            }
+        System.out.println("enter the no of elements to be inserted:");
+        int n=s.nextInt();
+        for (int i=0; i<n; i++){
+            BST.insert();
+        }
+        BST.display();
+        ArrayList<Integer> a = BST.FindPath();
+        for (int i=0; i<a.size(); i++) {
+            System.out.print(a.get(i)+" ");
         }
     }
 }
-
 class BST{
     BSTNode root;
     int size;
+
+    ArrayList<Integer> FindPath(){
+        Scanner scanner = new Scanner(System.in);
+        int value=scanner.nextInt();
+        return FindPath(root,value);
+    }
+
+    ArrayList<Integer> FindPath(BSTNode root,int value) {
+        if(root==null){
+            return null;
+        }
+        if(root.data==value){
+            ArrayList<Integer> result=new ArrayList<Integer>();
+            result.add(root.data);
+            return result;
+        }
+        else if(value<root.data){
+            ArrayList<Integer> leftans=FindPath(root.left, value);
+            if(leftans!=null){
+                leftans.add(root.data);
+            }
+            return leftans;
+        }
+        else{
+            ArrayList<Integer> rightans=FindPath(root.right, value);
+            if(rightans!=null){
+                rightans.add(root.data);
+            }
+            return rightans;
+        }
+    }
+
     void insert(){
         Scanner s=new Scanner(System.in);
         int value=s.nextInt();
@@ -84,7 +101,7 @@ class BST{
                     node=node.left;
                 }
                 root.data=node.data;
-                root.right=delete(root.right, node.data);
+                delete(root.right, node.data);
                 return root;
             }
         }
